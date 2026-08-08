@@ -4,14 +4,15 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
-import com.squareup.picasso.Picasso
+import coil.ImageLoader
+import coil.memory.MemoryCache
 import me.magnum.melonds.domain.model.rom.Rom
 import me.magnum.melonds.domain.model.SaveStateSlot
 import java.io.File
 
 class SaveStateScreenshotProvider(
     private val context: Context,
-    private val picasso: Picasso
+    private val imageLoader: ImageLoader
 ) {
 
     companion object {
@@ -60,6 +61,6 @@ class SaveStateScreenshotProvider(
 
     private fun invalidateScreenshotFile(screenshotFile: File) {
         val screenshotDocument = DocumentFile.fromFile(screenshotFile)
-        picasso.invalidate(screenshotDocument.uri)
+        imageLoader.memoryCache?.remove(MemoryCache.Key(screenshotDocument.uri.toString()))
     }
 }

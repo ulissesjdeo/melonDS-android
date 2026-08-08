@@ -1,5 +1,6 @@
 package me.magnum.melonds.impl.layout
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Point
 import android.os.Build
@@ -13,6 +14,7 @@ abstract class DeviceLayoutDisplayMapper(private val context: Context) {
 
     abstract fun mapDisplaysToLayoutDisplays(currentDisplay: Display, secondaryDisplay: Display?): LayoutDisplayPair
 
+    @SuppressLint("WrongConstant") // TYPE_PRESENTATION (2037) is a hidden but supported window type.
     protected fun mapDisplayToLayoutDisplay(display: Display, displayType: LayoutDisplay.Type): LayoutDisplay {
         // WindowMetrics API is available since API 30 (Android R), but there seems to be some issues regarding window context creation on that API version
         val (width, height) = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

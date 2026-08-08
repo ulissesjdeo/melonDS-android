@@ -163,7 +163,7 @@ private fun Input(
             } else {
                 val assignments = listOf(config.assignment, config.altAssignment).filter { it != InputConfig.Assignment.None }
                 if (assignments.isEmpty()) {
-                    stringResource(R.string.not_set)
+                    stringResource(R.string.value_not_set)
                 } else {
                     assignments.joinToString(" / ") { assignment ->
                         when (assignment) {

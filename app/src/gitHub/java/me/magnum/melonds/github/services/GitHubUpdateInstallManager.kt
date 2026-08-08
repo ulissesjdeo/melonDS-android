@@ -7,7 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.database.ContentObserver
 import android.net.Uri
-import android.os.Build
+import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import kotlinx.coroutines.channels.awaitClose
@@ -34,18 +34,12 @@ class GitHubUpdateInstallManager(private val context: Context) : UpdateInstallMa
     private var pendingDownloadId: Long? = null
 
     init {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            context.registerReceiver(
-                downloadCompleteReceiver,
-                IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE),
-                Context.RECEIVER_EXPORTED,
-            )
-        } else {
-            context.registerReceiver(
-                downloadCompleteReceiver,
-                IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE),
-            )
-        }
+        ContextCompat.registerReceiver(
+            context,
+            downloadCompleteReceiver,
+            IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE),
+            ContextCompat.RECEIVER_EXPORTED,
+        )
     }
 
     override fun downloadAndInstallUpdate(update: AppUpdate): Flow<DownloadProgress> = flow {
@@ -77,7 +71,7 @@ class GitHubUpdateInstallManager(private val context: Context) : UpdateInstallMa
         startDownload(downloadManager, downloadId).collect(this)
     }
 
-    private suspend fun startDownload(downloadManager: DownloadManager, downloadId: Long): Flow<DownloadProgress> = callbackFlow {
+    private fun startDownload(downloadManager: DownloadManager, downloadId: Long): Flow<DownloadProgress> = callbackFlow {
         val downloadContentObserver = object : ContentObserver(null) {
 
             override fun onChange(selfChange: Boolean, uri: Uri?) {
@@ -85,8 +79,8 @@ class GitHubUpdateInstallManager(private val context: Context) : UpdateInstallMa
                     setFilterById(downloadId)
                 }
 
-                val cursor = downloadManager.query(query)
-                if (cursor.moveToNext()) {
+                downloadManager.query(query)?.use { cursor ->
+                    if (!cursor.moveToNext()) return@use
                     val sizeIndex = cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES)
                     val downloadedIndex = cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR)
                     val statusIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)

@@ -36,13 +36,13 @@ jobs:
           echo "MELONDS_KEY_ALIAS=melonds" >> local.properties
           echo "MELONDS_KEY_PASSWORD=$MELONDS_KEYSTORE_PASSWORD" >> local.properties
           chmod +x ./gradlew
-          ./gradlew :app:assembleGitHubProdRelease
+          ./gradlew :app:assembleGitHubProdRelease -PmelonDS.abis=armeabi-v7a,arm64-v8a,x86_64
 
       - name: Get Tag and Version
         id: release_params
         run: |
           echo TAG=${GITHUB_REF/refs\/tags\//} >> $GITHUB_OUTPUT
-          echo VERSION=$(grep -oP 'versionName = "\K(.*?)(?=")' buildSrc/src/main/kotlin/AppConfig.kt) >> $GITHUB_OUTPUT
+          echo VERSION=$(grep '^melonDS.versionName=' gradle.properties | cut -d= -f2-) >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
         id: create_release
@@ -93,11 +93,11 @@ jobs:
           echo "MELONDS_KEY_ALIAS=melonds-playstore" >> local.properties
           echo "MELONDS_KEY_PASSWORD=$MELONDS_KEY_PASSWORD" >> local.properties
           chmod +x ./gradlew
-          ./gradlew :app:assemblePlayStoreProdRelease
+          ./gradlew :app:assemblePlayStoreProdRelease -PmelonDS.abis=armeabi-v7a,arm64-v8a,x86_64
 
       - name: Get Version
         id: release_params
-        run: echo VERSION=$(grep -oP 'versionName = "\K(.*?)(?=")' buildSrc/src/main/kotlin/AppConfig.kt) >> $GITHUB_OUTPUT
+        run: echo VERSION=$(grep '^melonDS.versionName=' gradle.properties | cut -d= -f2-) >> $GITHUB_OUTPUT
 
       - name: Create Play Store Release
         uses: r0adkll/upload-google-play@v1.1.2

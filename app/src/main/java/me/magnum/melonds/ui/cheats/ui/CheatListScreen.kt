@@ -13,8 +13,6 @@ import androidx.compose.material.Divider
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.PlaylistAdd
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,9 +20,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import me.magnum.melonds.R
@@ -116,7 +114,7 @@ private fun List(
             onClick = { cheatFormDialogState = CheatFormDialogState.NewCheat },
         ) {
             Icon(
-                painter = rememberVectorPainter(Icons.AutoMirrored.Filled.PlaylistAdd),
+                painter = painterResource(R.drawable.ic_add),
                 contentDescription = stringResource(R.string.add_cheat_folder),
             )
         }

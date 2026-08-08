@@ -7,7 +7,7 @@
     <string name="on">Attivato</string>
     <string name="off">Disattivato</string>
     <string name="cancel">Annulla</string>
-    <string name="not_set">Non impostato</string>
+    <string name="value_not_set">Non impostato</string>
     <string name="delete">Elimina</string>
     <string name="edit">Modifica</string>
     <string name="none">Nessuno</string>

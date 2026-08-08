@@ -37,7 +37,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
@@ -49,6 +48,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
@@ -131,7 +131,7 @@ fun DSiWareManagerScreen(
                         FabActionItem(
                             FAB_ITEM_FROM_FILE,
                             stringResource(id = R.string.dsiware_import_from_file),
-                            rememberVectorPainter(Icons.AutoMirrored.Filled.InsertDriveFile)
+                            painterResource(R.drawable.ic_file)
                         ),
                         FabActionItem(
                             FAB_ITEM_FROM_ROM_LIST,

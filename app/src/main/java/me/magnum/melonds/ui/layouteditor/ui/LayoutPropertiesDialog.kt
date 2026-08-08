@@ -57,7 +57,7 @@ fun LayoutPropertiesDialog(
         content = { padding ->
             ActionLauncherItem(
                 name = stringResource(R.string.layout_name),
-                value = name ?: stringResource(R.string.not_set),
+                value = name ?: stringResource(R.string.value_not_set),
                 onLaunchAction = {
                     textInputDialogState.show(
                         initialText = name ?: defaultName,

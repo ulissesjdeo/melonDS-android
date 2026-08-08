@@ -7,8 +7,9 @@ import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
+import coil.ImageLoader
+import coil.dispose
+import coil.load
 import me.magnum.melonds.R
 import me.magnum.melonds.databinding.ItemSaveStateSlotBinding
 import me.magnum.melonds.domain.model.SaveStateSlot
@@ -16,7 +17,7 @@ import java.text.SimpleDateFormat
 
 class SaveStateAdapter(
     slots: List<SaveStateSlot>,
-    private val picasso: Picasso,
+    private val imageLoader: ImageLoader,
     private val dateFormat: SimpleDateFormat,
     private val timeFormat: SimpleDateFormat,
     private val onSlotSelected: (SaveStateSlot) -> Unit,
@@ -63,13 +64,17 @@ class SaveStateAdapter(
             // Screenshot
             if (item.screenshot != null) {
                 binding.imageScreenshot.isGone = false
-                picasso.load(item.screenshot).into(binding.imageScreenshot, object : Callback {
-                    override fun onSuccess() {}
-                    override fun onError(e: Exception?) {
-                        binding.imageScreenshot.isGone = true
-                    }
-                })
+                binding.imageScreenshot.load(item.screenshot, imageLoader) {
+                    memoryCacheKey(item.screenshot.toString())
+                    listener(
+                        onError = { _, _ ->
+                            binding.imageScreenshot.isGone = true
+                        },
+                    )
+                }
             } else {
+                binding.imageScreenshot.dispose()
+                binding.imageScreenshot.setImageDrawable(null)
                 binding.imageScreenshot.isGone = true
             }
 

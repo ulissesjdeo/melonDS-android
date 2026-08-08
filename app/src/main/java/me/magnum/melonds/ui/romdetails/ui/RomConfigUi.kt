@@ -180,7 +180,7 @@ private fun Content(
             Column {
                 ActionLauncherItem(
                     name = stringResource(id = R.string.label_rom_config_gba_rom_path),
-                    value = romConfig.gbaSlotConfig.gbaRomPath ?: stringResource(id = R.string.not_set),
+                    value = romConfig.gbaSlotConfig.gbaRomPath ?: stringResource(id = R.string.value_not_set),
                     enabled = true,
                     onLaunchAction = {
                         gbaRomSelectorLauncher.launch(Pair(null, null))
@@ -189,7 +189,7 @@ private fun Content(
 
                 ActionLauncherItem(
                     name = stringResource(id = R.string.label_rom_config_gba_save_path),
-                    value = romConfig.gbaSlotConfig.gbaSavePath ?: stringResource(id = R.string.not_set),
+                    value = romConfig.gbaSlotConfig.gbaSavePath ?: stringResource(id = R.string.value_not_set),
                     enabled = true,
                     onLaunchAction = {
                         gbaSaveSelectorLauncher.launch(Pair(null, null))

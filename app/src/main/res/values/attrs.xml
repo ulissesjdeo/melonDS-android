@@ -8,12 +8,12 @@
         <attr name="ms_switchTextColor" format="color" />
         <attr name="ms_switchOffExplanationText" format="string" />
         <attr name="ms_switchOnExplanationText" format="string" />
-        <attr name="ms_includedPrefScreen" format="string"/>
-        <attr name="ms_excludedPrefScreen" format="string"/>
+        <attr name="ms_includedPrefScreen" format="reference"/>
+        <attr name="ms_excludedPrefScreen" format="reference"/>
         <attr name="ms_switchOnText" format="string" />
         <attr name="ms_switchOffText" format="string" />
         <attr name="ms_hideExplanation" format="boolean"/>
-        <attr name="ms_explanationIcon" format="string"/>
+        <attr name="ms_explanationIcon" format="reference"/>
         <attr name="ms_showStatusInSummary" format="boolean"/>
     </declare-styleable>
 </resources>

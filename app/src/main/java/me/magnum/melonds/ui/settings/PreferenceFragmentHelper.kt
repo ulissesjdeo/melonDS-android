@@ -37,12 +37,12 @@ class PreferenceFragmentHelper(
                     val summary = if (index >= 0)
                         preference.entries[index]
                     else
-                        preference.context.getString(R.string.not_set)
+                        preference.context.getString(R.string.value_not_set)
                     preference.setSummary(summary)
                 }
                 is StoragePickerPreference -> {
                     if (value == null || value !is Set<*> || value.isEmpty())
-                        preference.summary = preference.getContext().getString(R.string.not_set)
+                        preference.summary = preference.getContext().getString(R.string.value_not_set)
                     else {
                         val uris = value.mapNotNull { FileUtils.getAbsolutePathFromSAFUri(preference.context, (it as String).toUri()) }
                         preference.summary = uris.joinToString("\n")
@@ -58,7 +58,7 @@ class PreferenceFragmentHelper(
                 }
                 is MacAddressPreference -> {
                     val addressString = value as String?
-                    preference.summary = addressString ?: preference.context.getString(R.string.not_set)
+                    preference.summary = addressString ?: preference.context.getString(R.string.value_not_set)
                 }
                 else -> {
                     // For all other preferences, set the summary to the value's

@@ -10,9 +10,7 @@ import kotlinx.serialization.json.Json
 import me.magnum.melonds.domain.services.UpdateInstallManager
 import me.magnum.melonds.github.GitHubApi
 import me.magnum.melonds.github.services.GitHubUpdateInstallManager
-import okhttp3.MediaType.Companion.toMediaType
-import retrofit2.Retrofit
-import retrofit2.converter.kotlinx.serialization.asConverterFactory
+import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
 @Module
@@ -20,13 +18,12 @@ import javax.inject.Singleton
 object GitHubModule {
     @Provides
     @Singleton
-    fun provideGitHubApi(json: Json): GitHubApi {
-        val retrofit = Retrofit.Builder()
-            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
-            .baseUrl("https://api.github.com")
-            .build()
+    fun provideGitHubOkHttpClient(): OkHttpClient = OkHttpClient()
 
-        return retrofit.create(GitHubApi::class.java)
+    @Provides
+    @Singleton
+    fun provideGitHubApi(client: OkHttpClient, json: Json): GitHubApi {
+        return GitHubApi(client, json)
     }
 
     @Provides

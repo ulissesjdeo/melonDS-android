@@ -5,8 +5,8 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Vibrator
 import androidx.core.content.getSystemService
+import coil.ImageLoader
 import com.google.gson.Gson
-import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -136,8 +136,8 @@ object MelonModule {
 
     @Provides
     @Singleton
-    fun provideSaveStateScreenshotProvider(@ApplicationContext context: Context, picasso: Picasso): SaveStateScreenshotProvider {
-        return SaveStateScreenshotProvider(context, picasso)
+    fun provideSaveStateScreenshotProvider(@ApplicationContext context: Context, imageLoader: ImageLoader): SaveStateScreenshotProvider {
+        return SaveStateScreenshotProvider(context, imageLoader)
     }
 
     @Provides

@@ -80,7 +80,10 @@ The current project requires JDK 21, Android SDK platform 36, NDK `28.0.13004108
     2.  Windows: `gradlew.bat :app:assembleGitHubProdDebug`
 4.  The generated APK can be found at `app/build/outputs/apk/gitHubProd/debug/app-gitHub-prod-debug.apk`.
 
-If you want to create a release build, you will need to modify your `local.properties` file to include the following fields:
+Personal builds target ARM64 by default. To build every supported ABI, add
+`-PmelonDS.abis=armeabi-v7a,arm64-v8a,x86_64` to the Gradle command.
+
+Release builds are unsigned by default. To sign one, add the following fields to `local.properties`:
 
 *  `MELONDS_KEYSTORE=<path_to_your_keystore>`
 *  `MELONDS_KEYSTORE_PASSWORD=<keystore_password>`

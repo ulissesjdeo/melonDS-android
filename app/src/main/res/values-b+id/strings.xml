@@ -7,7 +7,7 @@
     <string name="on">Aktif</string>
     <string name="off">Tidak aktif</string>
     <string name="cancel">Batal</string>
-    <string name="not_set">Tidak diatur</string>
+    <string name="value_not_set">Tidak diatur</string>
     <string name="delete">Hapus</string>
     <string name="edit">Ubah</string>
     <string name="clear">Kosongkan</string>

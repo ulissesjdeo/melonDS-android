@@ -26,8 +26,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.findViewTreeViewModelStoreOwner
 import androidx.lifecycle.get
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
+import coil.ImageLoader
+import coil.load
 import me.magnum.melonds.R
 import me.magnum.melonds.databinding.ViewLayoutEditorManagerBinding
 import me.magnum.melonds.domain.model.RuntimeBackground
@@ -55,7 +55,7 @@ private const val CONTROLS_SLIDE_ANIMATION_DURATION_MS = 100L
 
 class LayoutEditorManagerView(
     private val layoutTarget: LayoutTarget,
-    private val picasso: Picasso,
+    private val imageLoader: ImageLoader,
     initialEditorState: ScreenEditorState? = null,
     context: Context,
     attrs: AttributeSet? = null
@@ -390,16 +390,17 @@ class LayoutEditorManagerView(
     }
 
     fun updateBackground(background: RuntimeBackground) {
-        picasso.load(background.background?.uri).into(binding.imageBackground, object : Callback {
-            override fun onSuccess() {
-                binding.imageBackground.setBackgroundMode(background.mode)
-            }
-
-            override fun onError(e: Exception?) {
-                e?.printStackTrace()
-                Toast.makeText(context, R.string.layout_background_load_failed, Toast.LENGTH_LONG).show()
-            }
-        })
+        binding.imageBackground.load(background.background?.uri, imageLoader) {
+            listener(
+                onSuccess = { _, _ ->
+                    binding.imageBackground.setBackgroundMode(background.mode)
+                },
+                onError = { _, result ->
+                    result.throwable.printStackTrace()
+                    Toast.makeText(context, R.string.layout_background_load_failed, Toast.LENGTH_LONG).show()
+                },
+            )
+        }
     }
 
     private fun openButtonsMenu() {

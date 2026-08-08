@@ -95,6 +95,7 @@ class InputSetupActivity : AppCompatActivity() {
         return super.onGenericMotionEvent(event)
     }
 
+    @SuppressLint("GestureBackNavigation")
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
         if (event.action == KeyEvent.ACTION_UP && keysToConsumeAfterAssignment.remove(event.keyCode)) {
             return true
@@ -105,7 +106,6 @@ class InputSetupActivity : AppCompatActivity() {
                 return super.dispatchKeyEvent(event)
             }
 
-            @SuppressLint("GestureBackNavigation")
             when (event.action) {
                 KeyEvent.ACTION_DOWN -> {
                     if (event.repeatCount == 0) {

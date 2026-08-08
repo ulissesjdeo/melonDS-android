@@ -1,5 +1,6 @@
 package me.magnum.melonds.ui.emulator
 
+import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Intent
 import android.content.pm.ServiceInfo
@@ -17,6 +18,7 @@ class LidCloseService : Service() {
 
     override fun onBind(intent: Intent?): IBinder? = null
 
+    @SuppressLint("InlinedApi") // ServiceCompat ignores the type on pre-29 devices.
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val notification = NotificationCompat.Builder(this, MelonDSApplication.NOTIFICATION_CHANNEL_ID_BACKGROUND_TASKS)
             .setContentTitle("DS Sleep")

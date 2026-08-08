@@ -5,9 +5,9 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.text.util.Linkify
 import androidx.preference.PreferenceManager
+import coil.ImageLoader
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.squareup.picasso.Picasso
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -15,7 +15,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.noties.markwon.Markwon
-import io.noties.markwon.image.picasso.PicassoImagesPlugin
 import io.noties.markwon.linkify.LinkifyPlugin
 import kotlinx.serialization.json.Json
 import me.magnum.melonds.common.DirectoryAccessValidator
@@ -24,6 +23,7 @@ import me.magnum.melonds.common.UriPermissionManager
 import me.magnum.melonds.common.uridelegates.CompositeUriHandler
 import me.magnum.melonds.common.uridelegates.UriHandler
 import me.magnum.melonds.impl.system.AppForegroundStateObserver
+import me.magnum.melonds.impl.image.CoilImagesPlugin
 import me.magnum.melonds.impl.system.AppForegroundStateTracker
 import me.magnum.melonds.utils.UriTypeHierarchyAdapter
 import javax.inject.Singleton
@@ -65,15 +65,9 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePicasso(@ApplicationContext context: Context): Picasso {
-        return Picasso.Builder(context).build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideMarkwon(@ApplicationContext context: Context, picasso: Picasso): Markwon {
+    fun provideMarkwon(@ApplicationContext context: Context, imageLoader: ImageLoader): Markwon {
         return Markwon.builder(context)
-            .usePlugin(PicassoImagesPlugin.create(picasso))
+            .usePlugin(CoilImagesPlugin(context, imageLoader))
             .usePlugin(LinkifyPlugin.create(Linkify.WEB_URLS, true))
             .build()
     }

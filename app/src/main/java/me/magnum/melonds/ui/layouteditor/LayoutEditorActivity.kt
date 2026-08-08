@@ -23,7 +23,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.window.layout.FoldingFeature
 import androidx.window.layout.WindowInfoTracker
-import com.squareup.picasso.Picasso
+import coil.ImageLoader
+import coil.dispose
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import me.magnum.melonds.R
@@ -64,7 +65,7 @@ class LayoutEditorActivity : AppCompatActivity() {
     @Inject
     lateinit var deviceLayoutDisplayMapper: DeviceLayoutDisplayMapper
     @Inject
-    lateinit var picasso: Picasso
+    lateinit var imageLoader: ImageLoader
 
     private val viewModel: LayoutEditorViewModel by viewModels()
     private lateinit var layoutEditorManager: LayoutEditorManagerView
@@ -132,7 +133,7 @@ class LayoutEditorActivity : AppCompatActivity() {
         val container = RelativeLayout(this).apply {
             setBackgroundColor(Color.BLACK)
         }
-        layoutEditorManager = LayoutEditorManagerView(LayoutTarget.MAIN_SCREEN, picasso, null, this).apply {
+        layoutEditorManager = LayoutEditorManagerView(LayoutTarget.MAIN_SCREEN, imageLoader, null, this).apply {
             listener = layoutEditorManagerListener
         }
         container.addView(layoutEditorManager, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT)
@@ -278,7 +279,7 @@ class LayoutEditorActivity : AppCompatActivity() {
         externalLayoutEditorPresentation = null
 
         if (secondaryDisplay != null) {
-            externalLayoutEditorPresentation = ExternalLayoutEditorPresentation(picasso, this, secondaryDisplay, layoutEditorManagerListener, savedExternalEditorState).apply {
+            externalLayoutEditorPresentation = ExternalLayoutEditorPresentation(imageLoader, this, secondaryDisplay, layoutEditorManagerListener, savedExternalEditorState).apply {
                 setOnShowListener {
                     val currentConfiguration = viewModel.currentLayout.value
                     if (currentConfiguration != null) {
@@ -332,9 +333,9 @@ class LayoutEditorActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        picasso.cancelRequest(layoutEditorManager.imageBackground)
+        layoutEditorManager.imageBackground.dispose()
         externalLayoutEditorPresentation?.layoutEditorManager?.imageBackground?.let {
-            picasso.cancelRequest(it)
+            it.dispose()
         }
     }
 }

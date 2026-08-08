@@ -10,6 +10,7 @@ import androidx.core.os.BundleCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.recyclerview.widget.RecyclerView
+import me.magnum.melonds.R
 
 @Keep
 open class MasterSwitchPreferenceFragment : PreferenceFragmentCompat() {

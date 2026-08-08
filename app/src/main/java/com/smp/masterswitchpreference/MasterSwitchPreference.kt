@@ -8,7 +8,7 @@ import androidx.annotation.Keep
 import androidx.core.os.BundleCompat
 import androidx.core.os.ParcelCompat
 import androidx.preference.Preference
-import java.io.File
+import me.magnum.melonds.R
 
 @Keep
 open class MasterSwitchPreference : Preference {
@@ -44,7 +44,7 @@ open class MasterSwitchPreference : Preference {
 
     override fun onSaveInstanceState(): Parcelable {
         val superState = super.onSaveInstanceState()
-        val myState = SavedState(superState);
+        val myState = SavedState(superState)
         myState.attrs = attrs
         return myState
     }
@@ -104,17 +104,18 @@ open class MasterSwitchPreference : Preference {
             val libraryAttrs =
                 context.theme.obtainStyledAttributes(attrs, androidx.preference.R.styleable.Preference, 0, 0)
 
-            val includedPrefScreenRes: String? =
-                getString(R.styleable.MasterSwitchPreference_ms_includedPrefScreen)
-            val notIncludedPrefScreenRes: String? =
-                getString(R.styleable.MasterSwitchPreference_ms_excludedPrefScreen)
-            val icon: String? = getString(R.styleable.MasterSwitchPreference_ms_explanationIcon)
-
-            fun resInt(resName: String?, type: String): Int? {
-                if (resName == null) return null
-                val f = File(resName).nameWithoutExtension
-                return context.resources.getIdentifier(f, type, context.packageName)
-            }
+            val includedPrefScreenRes = getResourceId(
+                R.styleable.MasterSwitchPreference_ms_includedPrefScreen,
+                0,
+            ).takeIf { it != 0 }
+            val notIncludedPrefScreenRes = getResourceId(
+                R.styleable.MasterSwitchPreference_ms_excludedPrefScreen,
+                0,
+            ).takeIf { it != 0 }
+            val icon = getResourceId(
+                R.styleable.MasterSwitchPreference_ms_explanationIcon,
+                0,
+            ).takeIf { it != 0 }
 
             val def = MasterSwitchPreferenceAttrs()
 
@@ -143,10 +144,8 @@ open class MasterSwitchPreference : Preference {
                     ?: def.switchOffExplanationText,
                 switchOnExplanationText = getString(R.styleable.MasterSwitchPreference_ms_switchOnExplanationText)
                     ?: def.switchOnExplanationText,
-                includedPrefScreen = resInt(includedPrefScreenRes, "xml")
-                    ?: def.includedPrefScreen,
-                excludedPrefScreen = resInt(notIncludedPrefScreenRes, "xml")
-                    ?: def.excludedPrefScreen,
+                includedPrefScreen = includedPrefScreenRes ?: def.includedPrefScreen,
+                excludedPrefScreen = notIncludedPrefScreenRes ?: def.excludedPrefScreen,
                 switchOnText = getString(R.styleable.MasterSwitchPreference_ms_switchOnText)
                     ?: def.switchOnText,
                 switchOffText = getString(R.styleable.MasterSwitchPreference_ms_switchOffText)
@@ -167,7 +166,7 @@ open class MasterSwitchPreference : Preference {
                     R.styleable.MasterSwitchPreference_ms_hideExplanation,
                     def.hideExplanation
                 ),
-                explanationIcon = resInt(icon, "drawable") ?: def.explanationIcon,
+                explanationIcon = icon ?: def.explanationIcon,
                 showStatus = getBoolean(
                     R.styleable.MasterSwitchPreference_ms_showStatusInSummary,
                     def.showStatus

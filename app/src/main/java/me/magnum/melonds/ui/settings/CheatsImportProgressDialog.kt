@@ -22,21 +22,8 @@ class CheatsImportProgressDialog : DialogFragment() {
     private val viewModel by viewModels<CheatsPreferencesViewModel>()
     private lateinit var binding: DialogCheatsImportProgressBinding
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        binding = DialogCheatsImportProgressBinding.inflate(layoutInflater)
-
-        return AlertDialog.Builder(requireContext())
-            .setTitle(R.string.importing_cheats)
-            .setView(binding.root)
-            .setPositiveButton(R.string.move_to_background) { dialog, _ ->
-                dialog.dismiss()
-            }
-            .setCancelable(false)
-            .create()
-    }
-
-    override fun onStart() {
-        super.onStart()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -59,4 +46,18 @@ class CheatsImportProgressDialog : DialogFragment() {
             }
         }
     }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        binding = DialogCheatsImportProgressBinding.inflate(layoutInflater)
+
+        return AlertDialog.Builder(requireContext())
+            .setTitle(R.string.importing_cheats)
+            .setView(binding.root)
+            .setPositiveButton(R.string.move_to_background) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setCancelable(false)
+            .create()
+    }
+
 }

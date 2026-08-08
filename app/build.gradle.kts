@@ -10,29 +10,42 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
+val compileSdkVersion = providers.gradleProperty("melonDS.compileSdk").get().toInt()
+val minSdkVersion = providers.gradleProperty("melonDS.minSdk").get().toInt()
+val targetSdkVersion = providers.gradleProperty("melonDS.targetSdk").get().toInt()
+val appVersionCode = providers.gradleProperty("melonDS.versionCode").get().toInt()
+val appVersionName = providers.gradleProperty("melonDS.versionName").get()
+val targetAbis = providers.gradleProperty("melonDS.abis").get()
+    .split(',')
+    .map(String::trim)
+    .filter(String::isNotEmpty)
+val localProperties = gradleLocalProperties(rootDir, providers)
+val releaseKeystorePath = localProperties["MELONDS_KEYSTORE"] as String?
+
 android {
     signingConfigs {
-        create("release") {
-            val props = gradleLocalProperties(rootDir, providers)
-            (props["MELONDS_KEYSTORE"] as String?)?.let { storeFile = file(it) }
-            storePassword = props["MELONDS_KEYSTORE_PASSWORD"] as String? ?: ""
-            keyAlias = props["MELONDS_KEY_ALIAS"] as String? ?: ""
-            keyPassword = props["MELONDS_KEY_PASSWORD"] as String? ?: ""
+        if (releaseKeystorePath != null) {
+            create("release") {
+                storeFile = file(releaseKeystorePath)
+                storePassword = localProperties["MELONDS_KEYSTORE_PASSWORD"] as String? ?: ""
+                keyAlias = localProperties["MELONDS_KEY_ALIAS"] as String? ?: ""
+                keyPassword = localProperties["MELONDS_KEY_PASSWORD"] as String? ?: ""
+            }
         }
     }
 
     namespace = "me.magnum.melonds"
-    compileSdk = AppConfig.compileSdkVersion
-    ndkVersion = AppConfig.ndkVersion
+    compileSdk = compileSdkVersion
+    ndkVersion = providers.gradleProperty("melonDS.ndkVersion").get()
     defaultConfig {
         applicationId = "me.magnum.melonds"
-        minSdk = AppConfig.minSdkVersion
-        targetSdk = AppConfig.targetSdkVersion
-        versionCode = AppConfig.versionCode
-        versionName = AppConfig.versionName
+        minSdk = minSdkVersion
+        targetSdk = targetSdkVersion
+        versionCode = appVersionCode
+        versionName = appVersionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         ndk {
-            abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a", "x86_64"))
+            abiFilters.addAll(targetAbis)
         }
         externalNativeBuild {
             cmake {
@@ -50,7 +63,7 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.findByName("release")
         }
         getByName("debug") {
             applicationIdSuffix = ".dev"
@@ -111,9 +124,6 @@ kotlin {
 }
 
 dependencies {
-    val gitHubImplementation by configurations
-
-    implementation(projects.masterswitch)
     implementation(projects.rcheevosApi)
 
     implementation(libs.androidx.activity)
@@ -121,7 +131,6 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.camera2)
     implementation(libs.androidx.camera.lifecycle)
-    implementation(libs.androidx.cardview)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core)
     implementation(libs.androidx.documentfile)
@@ -142,8 +151,7 @@ dependencies {
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.foundation)
     implementation(libs.compose.material)
-    implementation(libs.compose.material3)
-    implementation(libs.compose.material.icons)
+    implementation(libs.compose.material.icons.core)
     implementation(libs.compose.navigation)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)
@@ -154,15 +162,12 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.hilt)
     implementation(libs.kotlin.serialization)
-    implementation(libs.picasso)
     implementation(libs.markwon)
-    implementation(libs.markwon.imagepicasso)
     implementation(libs.markwon.linkify)
     implementation(libs.commons.compress)
     implementation(libs.xz)
 
-    gitHubImplementation(libs.retrofit)
-    gitHubImplementation(libs.retrofit.converter.kotlinx)
+    implementation(libs.okhttp)
 
     ksp(libs.hilt.compiler)
     ksp(libs.hilt.compiler.android)

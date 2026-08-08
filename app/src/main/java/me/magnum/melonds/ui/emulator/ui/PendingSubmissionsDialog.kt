@@ -18,9 +18,6 @@ import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Leaderboard
-import androidx.compose.material.icons.filled.Sync
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -165,7 +162,7 @@ private fun Content(
                 "pending-leaderboard" to InlineTextContent(Placeholder(baseLineHeight, baseLineHeight, PlaceholderVerticalAlign.Center)) {
                     Icon(
                         modifier = Modifier.fillMaxSize(),
-                        imageVector = Icons.Default.Leaderboard,
+                        painter = painterResource(R.drawable.ic_trophy),
                         contentDescription = null,
                         tint = MaterialTheme.colors.secondary,
                     )
@@ -184,7 +181,7 @@ private fun Content(
                         modifier = Modifier.fillMaxSize().graphicsLayer {
                             rotationZ = rotation
                         },
-                        imageVector = Icons.Default.Sync,
+                        painter = painterResource(R.drawable.ic_refresh),
                         contentDescription = null,
                         tint = MaterialTheme.colors.secondary,
                     )

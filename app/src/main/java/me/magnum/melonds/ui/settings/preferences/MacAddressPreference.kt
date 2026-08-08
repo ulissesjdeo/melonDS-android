@@ -50,7 +50,7 @@ class MacAddressPreference(context: Context, attrs: AttributeSet?) : Preference(
 
     private fun setMacAddressText(macAddress: MacAddress?, textView: TextView) {
         if (macAddress == null) {
-            textView.text = context.getString(R.string.not_set)
+            textView.text = context.getString(R.string.value_not_set)
         } else {
             val stringMacAddress = macAddress.toString()
             textView.text = stringMacAddress

@@ -1,9 +1,6 @@
 package me.magnum.rcheevosapi
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withContext
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.boolean
@@ -250,13 +247,13 @@ class RAApi(
         responseClass: KClass<T>,
         parameters: Map<String, String>,
         errorHandler: (String?) -> Unit,
-    ): Result<T> = withContext(Dispatchers.IO) {
+    ): Result<T> {
         val request = buildGetRequest(parameters)
-        suspendRunCatching {
+        return suspendRunCatching {
             executeRequest(request)
         }.suspendMapCatching { response ->
-            val body = response.body.charStream().use {
-                it.readText()
+            val body = response.use {
+                it.body.string()
             }
             val responseJson = Json.parseToJsonElement(body).jsonObject
             val isSuccessful = responseJson["Success"]!!.jsonPrimitive.boolean
@@ -287,13 +284,13 @@ class RAApi(
         responseClass: KClass<T>,
         parameters: Map<String, String>,
         errorHandler: (String?) -> Unit,
-    ): Result<T> = withContext(Dispatchers.IO) {
+    ): Result<T> {
         val request = buildPostRequest(parameters)
-        suspendRunCatching {
+        return suspendRunCatching {
             executeRequest(request)
         }.suspendMapCatching { response ->
-            val body = response.body.charStream().use {
-                it.readText()
+            val body = response.use {
+                it.body.string()
             }
             val responseJson = Json.parseToJsonElement(body).jsonObject
             val isSuccessful = responseJson["Success"]!!.jsonPrimitive.boolean
@@ -336,31 +333,32 @@ class RAApi(
             .build()
     }
 
-    private suspend fun executeRequest(request: Request): Response = suspendCancellableCoroutine { continuation ->
+    private suspend fun executeRequest(request: Request): Response {
         val call = okHttpClient.newCall(request)
-        call.enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                continuation.resumeWithException(e)
-            }
+        val response = suspendCancellableCoroutine { continuation ->
+            continuation.invokeOnCancellation { call.cancel() }
+            call.enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    continuation.resumeWithException(e)
+                }
 
-            override fun onResponse(call: Call, response: Response) {
-                if (response.isSuccessful) {
-                    continuation.resume(response)
-                } else {
-                    if (response.code == 401) {
-                        runBlocking {
-                            userAuthStore.clearUserToken()
-                        }
-                        continuation.resumeWithException(UserTokenExpiredException())
-                    } else {
-                        continuation.resumeWithException(Exception(response.message))
+                override fun onResponse(call: Call, response: Response) {
+                    continuation.resume(response) { _, cancelledResponse, _ ->
+                        cancelledResponse.close()
                     }
                 }
-            }
-        })
-
-        continuation.invokeOnCancellation {
-            call.cancel()
+            })
         }
+
+        if (response.isSuccessful) return response
+
+        val statusCode = response.code
+        val statusMessage = response.message
+        response.close()
+        if (statusCode == 401) {
+            userAuthStore.clearUserToken()
+            throw UserTokenExpiredException()
+        }
+        throw IOException("HTTP $statusCode: $statusMessage")
     }
 }

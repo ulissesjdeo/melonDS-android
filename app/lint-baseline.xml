@@ -2,54 +2,10 @@
 <issues format="6" by="lint 9.2.1" type="baseline" client="gradle" dependencies="false" name="AGP (9.2.1)" variant="all" version="9.2.1">
 
     <issue
-        id="GestureBackNavigation"
-        message="If intercepting back events, this should be handled through the registration of callbacks; see https://developer.android.com/guide/navigation/custom-back/predictive-back-gesture"
-        errorLine1="            if (event.keyCode == KeyEvent.KEYCODE_BACK) {"
-        errorLine2="                                 ~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/me/magnum/melonds/ui/inputsetup/InputSetupActivity.kt"
-            line="104"
-            column="34"/>
-    </issue>
-
-    <issue
-        id="InlinedApi"
-        message="Field requires API level 29 (current min is 24): `android.content.pm.ServiceInfo#FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK`"
-        errorLine1="        ServiceCompat.startForeground(this, NOTIFICATION_ID_LID_CLOSE, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)"
-        errorLine2="                                                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/me/magnum/melonds/ui/emulator/LidCloseService.kt"
-            line="27"
-            column="86"/>
-    </issue>
-
-    <issue
         id="LocaleFolder"
         message="The locale folder &quot;`id`&quot; should be called &quot;`in`&quot; instead; see the `java.util.Locale` documentation">
         <location
             file="src/main/res/values-b+id"/>
-    </issue>
-
-    <issue
-        id="NewApi"
-        message="Call requires API level 26 (current min is 24): `android.content.ContextWrapper#startForegroundService`"
-        errorLine1="            startForegroundService(Intent(this, LidCloseService::class.java))"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/me/magnum/melonds/ui/emulator/EmulatorActivity.kt"
-            line="1057"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="NewApi"
-        message="`android:windowLightNavigationBar` requires API level 27 (current min is 24)"
-        errorLine1="        &lt;item name=&quot;android:windowLightNavigationBar&quot;>@bool/lightNavigationBar&lt;/item>"
-        errorLine2="              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/styles.xml"
-            line="9"
-            column="15"/>
     </issue>
 
     <issue
@@ -108,57 +64,13 @@
     </issue>
 
     <issue
-        id="WrongConstant"
-        message="Must be one of: LayoutParams.TYPE_BASE_APPLICATION, LayoutParams.TYPE_APPLICATION, LayoutParams.TYPE_APPLICATION_STARTING, LayoutParams.TYPE_DRAWN_APPLICATION, LayoutParams.TYPE_APPLICATION_PANEL, LayoutParams.TYPE_APPLICATION_MEDIA, LayoutParams.TYPE_APPLICATION_SUB_PANEL, LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG, LayoutParams.TYPE_STATUS_BAR, LayoutParams.TYPE_SEARCH_BAR, LayoutParams.TYPE_PHONE, LayoutParams.TYPE_SYSTEM_ALERT, LayoutParams.TYPE_TOAST, LayoutParams.TYPE_SYSTEM_OVERLAY, LayoutParams.TYPE_PRIORITY_PHONE, LayoutParams.TYPE_SYSTEM_DIALOG, LayoutParams.TYPE_KEYGUARD_DIALOG, LayoutParams.TYPE_SYSTEM_ERROR, LayoutParams.TYPE_INPUT_METHOD, LayoutParams.TYPE_INPUT_METHOD_DIALOG, LayoutParams.TYPE_WALLPAPER, LayoutParams.TYPE_PRIVATE_PRESENTATION, LayoutParams.TYPE_ACCESSIBILITY_OVERLAY, LayoutParams.TYPE_APPLICATION_OVERLAY"
-        errorLine1="            val displayWindowContext = context.createDisplayContext(display).createWindowContext(displayContextType, null)"
-        errorLine2="                                                                                                 ~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/me/magnum/melonds/impl/layout/DeviceLayoutDisplayMapper.kt"
-            line="21"
-            column="98"/>
-    </issue>
-
-    <issue
-        id="RepeatOnLifecycleWrongUsage"
-        message="Wrong usage of repeatOnLifecycle from CheatsImportProgressDialog.onStart."
-        errorLine1="            repeatOnLifecycle(Lifecycle.State.STARTED) {"
-        errorLine2="            ^">
-        <location
-            file="src/main/java/me/magnum/melonds/ui/settings/CheatsImportProgressDialog.kt"
-            line="42"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="UnspecifiedRegisterReceiverFlag"
-        message="`downloadCompleteReceiver` is missing `RECEIVER_EXPORTED` or `RECEIVER_NOT_EXPORTED` flag for unprotected broadcasts registered for android.intent.action.DOWNLOAD_COMPLETE"
-        errorLine1="            context.registerReceiver("
-        errorLine2="            ^">
-        <location
-            file="src/gitHub/java/me/magnum/melonds/github/services/GitHubUpdateInstallManager.kt"
-            line="44"
-            column="13"/>
-    </issue>
-
-    <issue
         id="AndroidGradlePluginVersion"
         message="A newer version of com.android.application than 9.2.1 is available: 9.3.1"
         errorLine1="gradle = &quot;9.2.1&quot;"
         errorLine2="         ~~~~~~~">
         <location
             file="$HOME/dev/melonDS-android/gradle/libs.versions.toml"
-            line="15"
-            column="10"/>
-    </issue>
-
-    <issue
-        id="AndroidGradlePluginVersion"
-        message="A newer version of com.android.library than 9.2.1 is available: 9.3.1"
-        errorLine1="gradle = &quot;9.2.1&quot;"
-        errorLine2="         ~~~~~~~">
-        <location
-            file="$HOME/dev/melonDS-android/gradle/libs.versions.toml"
-            line="15"
+            line="14"
             column="10"/>
     </issue>
 
@@ -169,7 +81,7 @@
         errorLine2="             ~~~~~~~~~~~~">
         <location
             file="$HOME/dev/melonDS-android/gradle/libs.versions.toml"
-            line="10"
+            line="9"
             column="14"/>
     </issue>
 
@@ -180,7 +92,7 @@
         errorLine2="                   ~~~~~~~">
         <location
             file="$HOME/dev/melonDS-android/gradle/libs.versions.toml"
-            line="11"
+            line="10"
             column="20"/>
     </issue>
 
@@ -191,7 +103,7 @@
         errorLine2="       ~~~~~~~~">
         <location
             file="$HOME/dev/melonDS-android/gradle/libs.versions.toml"
-            line="12"
+            line="11"
             column="8"/>
     </issue>
 
@@ -202,7 +114,7 @@
         errorLine2="        ~~~~~~~">
         <location
             file="$HOME/dev/melonDS-android/gradle/libs.versions.toml"
-            line="17"
+            line="16"
             column="9"/>
     </issue>
 
@@ -213,7 +125,7 @@
         errorLine2="        ~~~~~~~">
         <location
             file="$HOME/dev/melonDS-android/gradle/libs.versions.toml"
-            line="17"
+            line="16"
             column="9"/>
     </issue>
 
@@ -224,7 +136,7 @@
         errorLine2="                     ~~~~~~~~">
         <location
             file="$HOME/dev/melonDS-android/gradle/libs.versions.toml"
-            line="24"
+            line="23"
             column="22"/>
     </issue>
 
@@ -235,7 +147,7 @@
         errorLine2="                     ~~~~~~~~">
         <location
             file="$HOME/dev/melonDS-android/gradle/libs.versions.toml"
-            line="24"
+            line="23"
             column="22"/>
     </issue>
 
@@ -246,7 +158,7 @@
         errorLine2="           ~~~~~~~~">
         <location
             file="$HOME/dev/melonDS-android/gradle/libs.versions.toml"
-            line="26"
+            line="25"
             column="12"/>
     </issue>
 
@@ -257,7 +169,7 @@
         errorLine2="                  ~~~~~~~~">
         <location
             file="$HOME/dev/melonDS-android/gradle/libs.versions.toml"
-            line="9"
+            line="8"
             column="19"/>
     </issue>
 
@@ -268,7 +180,7 @@
         errorLine2="       ~~~~~~~~">
         <location
             file="$HOME/dev/melonDS-android/gradle/libs.versions.toml"
-            line="18"
+            line="17"
             column="8"/>
     </issue>
 
@@ -279,7 +191,7 @@
         errorLine2="       ~~~~~~~~">
         <location
             file="$HOME/dev/melonDS-android/gradle/libs.versions.toml"
-            line="18"
+            line="17"
             column="8"/>
     </issue>
 
@@ -290,7 +202,7 @@
         errorLine2="       ~~~~~~~~">
         <location
             file="$HOME/dev/melonDS-android/gradle/libs.versions.toml"
-            line="18"
+            line="17"
             column="8"/>
     </issue>
 
@@ -301,7 +213,7 @@
         errorLine2="         ~~~~~~~~">
         <location
             file="$HOME/dev/melonDS-android/gradle/libs.versions.toml"
-            line="20"
+            line="19"
             column="10"/>
     </issue>
 
@@ -312,7 +224,7 @@
         errorLine2="         ~~~~~~~~">
         <location
             file="$HOME/dev/melonDS-android/gradle/libs.versions.toml"
-            line="20"
+            line="19"
             column="10"/>
     </issue>
 
@@ -323,7 +235,7 @@
         errorLine2="         ~~~~~~~~">
         <location
             file="$HOME/dev/melonDS-android/gradle/libs.versions.toml"
-            line="20"
+            line="19"
             column="10"/>
     </issue>
 
@@ -334,7 +246,7 @@
         errorLine2="         ~~~~~~~~">
         <location
             file="$HOME/dev/melonDS-android/gradle/libs.versions.toml"
-            line="20"
+            line="19"
             column="10"/>
     </issue>
 
@@ -345,7 +257,7 @@
         errorLine2="                    ~~~~~~~~">
         <location
             file="$HOME/dev/melonDS-android/gradle/libs.versions.toml"
-            line="21"
+            line="20"
             column="21"/>
     </issue>
 
@@ -356,7 +268,7 @@
         errorLine2="         ~~~~~~~">
         <location
             file="$HOME/dev/melonDS-android/gradle/libs.versions.toml"
-            line="28"
+            line="27"
             column="10"/>
     </issue>
 
@@ -367,96 +279,8 @@
         errorLine2="     ~~~~~~">
         <location
             file="$HOME/dev/melonDS-android/gradle/libs.versions.toml"
-            line="39"
+            line="36"
             column="6"/>
-    </issue>
-
-    <issue
-        id="PrivateResource"
-        message="Overriding `@string/not_set` which is marked as private in androidx.preference:preference:1.2.1. If deliberate, use tools:override=&quot;true&quot;, otherwise pick a different name."
-        errorLine1="    &lt;string name=&quot;not_set&quot;>No establecido&lt;/string>"
-        errorLine2="                  ~~~~~~~">
-        <location
-            file="src/main/res/values-b+es/strings.xml"
-            line="10"
-            column="19"/>
-    </issue>
-
-    <issue
-        id="PrivateResource"
-        message="Overriding `@string/not_set` which is marked as private in androidx.preference:preference:1.2.1. If deliberate, use tools:override=&quot;true&quot;, otherwise pick a different name."
-        errorLine1="    &lt;string name=&quot;not_set&quot;>Tidak diatur&lt;/string>"
-        errorLine2="                  ~~~~~~~">
-        <location
-            file="src/main/res/values-b+id/strings.xml"
-            line="10"
-            column="19"/>
-    </issue>
-
-    <issue
-        id="PrivateResource"
-        message="Overriding `@string/not_set` which is marked as private in androidx.preference:preference:1.2.1. If deliberate, use tools:override=&quot;true&quot;, otherwise pick a different name."
-        errorLine1="    &lt;string name=&quot;not_set&quot;>Non impostato&lt;/string>"
-        errorLine2="                  ~~~~~~~">
-        <location
-            file="src/main/res/values-b+it/strings.xml"
-            line="10"
-            column="19"/>
-    </issue>
-
-    <issue
-        id="PrivateResource"
-        message="Overriding `@string/not_set` which is marked as private in androidx.preference:preference:1.2.1. If deliberate, use tools:override=&quot;true&quot;, otherwise pick a different name."
-        errorLine1="    &lt;string name=&quot;not_set&quot;>Não configurado&lt;/string>"
-        errorLine2="                  ~~~~~~~">
-        <location
-            file="src/main/res/values-b+pt+BR/strings.xml"
-            line="10"
-            column="19"/>
-    </issue>
-
-    <issue
-        id="PrivateResource"
-        message="Overriding `@string/not_set` which is marked as private in androidx.preference:preference:1.2.1. If deliberate, use tools:override=&quot;true&quot;, otherwise pick a different name."
-        errorLine1="    &lt;string name=&quot;not_set&quot;>Не задано&lt;/string>"
-        errorLine2="                  ~~~~~~~">
-        <location
-            file="src/main/res/values-b+ru/strings.xml"
-            line="10"
-            column="19"/>
-    </issue>
-
-    <issue
-        id="PrivateResource"
-        message="Overriding `@string/not_set` which is marked as private in androidx.preference:preference:1.2.1. If deliberate, use tools:override=&quot;true&quot;, otherwise pick a different name."
-        errorLine1="    &lt;string name=&quot;not_set&quot;>未设置&lt;/string>"
-        errorLine2="                  ~~~~~~~">
-        <location
-            file="src/main/res/values-b+zh+Hans/strings.xml"
-            line="10"
-            column="19"/>
-    </issue>
-
-    <issue
-        id="PrivateResource"
-        message="Overriding `@string/not_set` which is marked as private in androidx.preference:preference:1.2.1. If deliberate, use tools:override=&quot;true&quot;, otherwise pick a different name."
-        errorLine1="    &lt;string name=&quot;not_set&quot;>Not set&lt;/string>"
-        errorLine2="                  ~~~~~~~">
-        <location
-            file="src/main/res/values/strings.xml"
-            line="10"
-            column="19"/>
-    </issue>
-
-    <issue
-        id="PrivateResource"
-        message="Overriding `@string/not_set` which is marked as private in androidx.preference:preference:1.2.1. If deliberate, use tools:override=&quot;true&quot;, otherwise pick a different name."
-        errorLine1="    &lt;string name=&quot;not_set&quot;>Non défini&lt;/string>"
-        errorLine2="                  ~~~~~~~">
-        <location
-            file="src/main/res/values-b+fr/strings.xml"
-            line="11"
-            column="19"/>
     </issue>
 
     <issue
@@ -1390,7 +1214,7 @@
         errorLine2="       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/me/magnum/melonds/ui/cheats/ui/CheatsScreen.kt"
-            line="26"
+            line="25"
             column="8"/>
     </issue>
 
@@ -5487,17 +5311,6 @@
 
     <issue
         id="UnusedResources"
-        message="The resource `R.xml.pref_rewind` appears to be unused"
-        errorLine1="&lt;PreferenceScreen xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
-        errorLine2="^">
-        <location
-            file="src/main/res/xml/pref_rewind.xml"
-            line="2"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
         message="The resource `R.string.yes` appears to be unused"
         errorLine1="    &lt;string name=&quot;yes&quot;>Yes&lt;/string>"
         errorLine2="            ~~~~~~~~~~">
@@ -5603,28 +5416,6 @@
         <location
             file="src/main/res/values/strings.xml"
             line="123"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
-        message="The resource `R.string.rewind_save_period` appears to be unused"
-        errorLine1="    &lt;string name=&quot;rewind_save_period&quot;>Save period&lt;/string>"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/strings.xml"
-            line="172"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
-        message="The resource `R.string.rewind_length` appears to be unused"
-        errorLine1="    &lt;string name=&quot;rewind_length&quot;>Rewind length&lt;/string>"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/strings.xml"
-            line="173"
             column="13"/>
     </issue>
 
@@ -6492,7 +6283,7 @@
         errorLine2="                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/me/magnum/melonds/ui/layouteditor/LayoutEditorManagerView.kt"
-            line="540"
+            line="541"
             column="39"/>
     </issue>
 
@@ -6503,7 +6294,7 @@
         errorLine2="                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/me/magnum/melonds/ui/layouteditor/LayoutEditorManagerView.kt"
-            line="540"
+            line="541"
             column="38"/>
     </issue>
 
@@ -6514,7 +6305,7 @@
         errorLine2="                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/me/magnum/melonds/ui/layouteditor/LayoutEditorManagerView.kt"
-            line="546"
+            line="547"
             column="40"/>
     </issue>
 
@@ -6525,7 +6316,7 @@
         errorLine2="                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/me/magnum/melonds/ui/layouteditor/LayoutEditorManagerView.kt"
-            line="546"
+            line="547"
             column="39"/>
     </issue>
 
@@ -6536,7 +6327,7 @@
         errorLine2="                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/me/magnum/melonds/ui/layouteditor/LayoutEditorManagerView.kt"
-            line="552"
+            line="553"
             column="38"/>
     </issue>
 
@@ -6547,7 +6338,7 @@
         errorLine2="                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/me/magnum/melonds/ui/layouteditor/LayoutEditorManagerView.kt"
-            line="552"
+            line="553"
             column="37"/>
     </issue>
 
@@ -6558,7 +6349,7 @@
         errorLine2="                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/me/magnum/melonds/ui/layouteditor/LayoutEditorManagerView.kt"
-            line="674"
+            line="675"
             column="35"/>
     </issue>
 
@@ -6569,7 +6360,7 @@
         errorLine2="                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/me/magnum/melonds/ui/layouteditor/LayoutEditorManagerView.kt"
-            line="674"
+            line="675"
             column="34"/>
     </issue>
 
@@ -6580,7 +6371,7 @@
         errorLine2="                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/me/magnum/melonds/ui/layouteditor/LayoutEditorManagerView.kt"
-            line="678"
+            line="679"
             column="36"/>
     </issue>
 
@@ -6591,7 +6382,7 @@
         errorLine2="                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/me/magnum/melonds/ui/layouteditor/LayoutEditorManagerView.kt"
-            line="678"
+            line="679"
             column="35"/>
     </issue>
 

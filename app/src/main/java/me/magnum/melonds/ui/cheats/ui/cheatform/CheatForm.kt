@@ -32,7 +32,6 @@ import androidx.compose.material.TextButton
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
@@ -44,14 +43,15 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
-import androidx.window.core.layout.WindowSizeClass
 import me.magnum.melonds.R
 import me.magnum.melonds.ui.cheats.model.CheatFormDialogState
 import me.magnum.melonds.ui.cheats.model.CheatSubmissionForm
@@ -72,8 +72,10 @@ fun CheatFormDialog(
     if (state != CheatFormDialogState.Hidden) {
         val cheatFormState = rememberCheatFormState(state)
 
-        val windowSizeClass = currentWindowAdaptiveInfo(true).windowSizeClass
-        val isLargeScreen = windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND)
+        val windowWidthDp = with(LocalDensity.current) {
+            LocalWindowInfo.current.containerSize.width.toDp().value
+        }
+        val isLargeScreen = windowWidthDp >= 840
         if (isLargeScreen) {
             CheatFormPopupDialog(
                 cheatFormState = cheatFormState,

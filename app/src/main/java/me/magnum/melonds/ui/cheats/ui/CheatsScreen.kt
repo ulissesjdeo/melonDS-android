@@ -22,7 +22,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.outlined.CheckBox
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -34,6 +33,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalResources
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -140,7 +140,7 @@ fun CheatsScreen(
                             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.high) {
                                 IconButton(onClick = { viewModel.openEnabledCheats() }) {
                                     Icon(
-                                        painter = rememberVectorPainter(Icons.Outlined.CheckBox),
+                                        painter = painterResource(R.drawable.ic_completed),
                                         contentDescription = stringResource(R.string.enabled_cheats),
                                     )
                                 }

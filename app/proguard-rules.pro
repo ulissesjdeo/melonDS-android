@@ -20,7 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keepclassmembers enum * { *; }
+-keepclassmembers enum me.magnum.** { *; }
 
 -keep class me.magnum.melonds.domain.model.RendererConfiguration { *; }
 -keep class me.magnum.melonds.domain.model.FirmwareConfiguration { *; }

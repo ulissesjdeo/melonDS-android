@@ -45,7 +45,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.window.layout.FoldingFeature
 import androidx.window.layout.WindowInfoTracker
-import com.squareup.picasso.Picasso
+import coil.ImageLoader
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filterIsInstance
@@ -153,7 +153,7 @@ class EmulatorActivity : AppCompatActivity() {
     lateinit var deviceLayoutDisplayMapper: DeviceLayoutDisplayMapper
 
     @Inject
-    lateinit var picasso: Picasso
+    lateinit var imageLoader: ImageLoader
 
     @Inject
     lateinit var permissionHandler: PermissionHandler
@@ -924,7 +924,7 @@ class EmulatorActivity : AppCompatActivity() {
 
         adapter = SaveStateAdapter(
             slots = slots,
-            picasso = picasso,
+            imageLoader = imageLoader,
             dateFormat = dateFormatter,
             timeFormat = timeFormatter,
             onSlotSelected = {
@@ -1054,7 +1054,7 @@ class EmulatorActivity : AppCompatActivity() {
         if (isScreenOff()) {
             lidClosedByScreenOff = true
             melonTouchHandler.setLidClosed(true)
-            startForegroundService(Intent(this, LidCloseService::class.java))
+            ContextCompat.startForegroundService(this, Intent(this, LidCloseService::class.java))
 
             // Delay pausing the emulator just enough to let games play sounds after closing the lid
             handler.postDelayed(pauseAfterLidCloseRunnable, lidClosePauseDelayMs)

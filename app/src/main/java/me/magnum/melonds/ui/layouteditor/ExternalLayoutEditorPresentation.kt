@@ -15,13 +15,13 @@ import androidx.lifecycle.setViewTreeLifecycleOwner
 import androidx.lifecycle.setViewTreeViewModelStoreOwner
 import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
-import com.squareup.picasso.Picasso
+import coil.ImageLoader
 import me.magnum.melonds.domain.model.layout.UILayout
 import me.magnum.melonds.ui.layouteditor.model.LayoutTarget
 import me.magnum.melonds.ui.layouteditor.model.ScreenEditorState
 
 class ExternalLayoutEditorPresentation(
-    picasso: Picasso,
+    imageLoader: ImageLoader,
     context: Context,
     display: Display,
     private val layoutEditorManagerListener: LayoutEditorManagerView.LayoutEditorManagerListener,
@@ -38,7 +38,7 @@ class ExternalLayoutEditorPresentation(
 
     val layoutEditorManager = LayoutEditorManagerView(
         layoutTarget = LayoutTarget.SECONDARY_SCREEN,
-        picasso = picasso,
+        imageLoader = imageLoader,
         initialEditorState = savedState,
         context = PresentationContextWrapper(context, this.context),
         attrs = null,
