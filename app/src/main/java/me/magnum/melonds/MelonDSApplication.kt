@@ -7,9 +7,10 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
-import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import me.magnum.melonds.common.UriFileHandler
 import me.magnum.melonds.common.uridelegates.UriHandler
@@ -32,6 +33,8 @@ class MelonDSApplication : Application(), Configuration.Provider {
     @Inject lateinit var migrator: Migrator
     @Inject lateinit var uriHandler: UriHandler
 
+    private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+
     override fun onCreate() {
         super.onCreate()
         createNotificationChannels()
@@ -49,9 +52,8 @@ class MelonDSApplication : Application(), Configuration.Provider {
         notificationManager.createNotificationChannel(defaultChannel)
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
     private fun applyTheme() {
-        GlobalScope.launch(Dispatchers.Main) {
+        applicationScope.launch {
             settingsRepository.observeTheme().collect {
                 AppCompatDelegate.setDefaultNightMode(it.nightMode)
             }
@@ -64,6 +66,7 @@ class MelonDSApplication : Application(), Configuration.Provider {
 
     override fun onTerminate() {
         super.onTerminate()
+        applicationScope.cancel()
         MelonDSAndroidInterface.cleanup()
     }
 

@@ -94,6 +94,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
+    lint {
+        baseline = file("lint-baseline.xml")
+    }
 }
 
 kotlin {
@@ -112,7 +115,6 @@ dependencies {
 
     implementation(projects.masterswitch)
     implementation(projects.rcheevosApi)
-    implementation(projects.common)
 
     implementation(libs.androidx.activity)
     implementation(libs.androidx.activity.compose)
@@ -130,7 +132,6 @@ dependencies {
     implementation(libs.androidx.preference)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.room)
-    implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.splashscreen)
     implementation(libs.androidx.startup)
     implementation(libs.androidx.swiperefreshlayout)

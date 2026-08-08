@@ -12,8 +12,6 @@ kotlin {
 }
 
 dependencies {
-    implementation(projects.common)
-
     implementation(libs.kotlin.coroutines)
     implementation(libs.kotlin.serialization)
     implementation(libs.okhttp)
