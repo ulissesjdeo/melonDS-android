@@ -52,7 +52,9 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.launch
 import me.magnum.melonds.MelonEmulator
 import me.magnum.melonds.R
+import me.magnum.melonds.common.Permission
 import me.magnum.melonds.common.PermissionHandler
+import me.magnum.melonds.common.UriPermissionManager
 import me.magnum.melonds.databinding.ActivityEmulatorBinding
 import me.magnum.melonds.domain.model.ConsoleType
 import me.magnum.melonds.domain.model.ControllerConfiguration
@@ -161,6 +163,9 @@ class EmulatorActivity : AppCompatActivity() {
 
     @Inject
     lateinit var appForegroundStateObserver: AppForegroundStateObserver
+
+    @Inject
+    lateinit var uriPermissionManager: UriPermissionManager
 
     private var presentation: ExternalPresentation? = null
 
@@ -300,6 +305,7 @@ class EmulatorActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        intent.data?.let { uriPermissionManager.tryPersistFilePermissions(it, Permission.READ) }
         handler = Handler(mainLooper)
         lifecycleOwnerProvider.setCurrentLifecycleOwner(this)
         binding = ActivityEmulatorBinding.inflate(layoutInflater)
@@ -691,6 +697,7 @@ class EmulatorActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
+        intent.data?.let { uriPermissionManager.tryPersistFilePermissions(it, Permission.READ) }
 
         val launchArgs = LaunchArgs.fromIntent(intent)
         // Invalid arguments. Ignore completely
