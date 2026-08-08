@@ -1,0 +1,6 @@
+MELONDS_ANDROID {
+    global:
+        Java_*;
+    local:
+        *;
+};

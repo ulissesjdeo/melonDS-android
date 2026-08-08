@@ -48,6 +48,7 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             signingConfig = signingConfigs.getByName("release")
         }
@@ -130,7 +131,6 @@ dependencies {
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.room)
     implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.room.rxjava)
     implementation(libs.androidx.splashscreen)
     implementation(libs.androidx.startup)
     implementation(libs.androidx.swiperefreshlayout)
@@ -153,7 +153,6 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.hilt)
     implementation(libs.kotlin.serialization)
-    implementation(libs.kotlinx.coroutines.rx)
     implementation(libs.picasso)
     implementation(libs.markwon)
     implementation(libs.markwon.imagepicasso)

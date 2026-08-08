@@ -61,7 +61,6 @@ androidx-preference = { module = "androidx.preference:preference-ktx", version.r
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerView" }
 androidx-room = { module = "androidx.room:room-runtime", version.ref = "room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
-androidx-room-rxjava = { module = "androidx.room:room-rxjava2", version.ref = "room" }
 androidx-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splashscreen" }
 androidx-startup = { module = "androidx.startup:startup-runtime", version.ref = "startup" }
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swipeRefreshLayout" }
@@ -84,7 +83,6 @@ compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview"
 coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
-kotlinx-coroutines-rx = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-rx2", version.ref = "kotlinxCoroutines" }
 picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
 markwon = { module = "io.noties.markwon:core", version.ref = "markwon" }
 markwon-imagepicasso = { module = "io.noties.markwon:image-picasso", version.ref = "markwon" }

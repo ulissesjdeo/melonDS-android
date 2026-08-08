@@ -2,6 +2,7 @@
 
 ### Unreleased
 
+* Reduce APK size and download footprint through resource shrinking and native-code optimization
 * Improve stability and reduce fatal out-of-memory failures when scanning or opening 7z ROMs ([#1524](https://github.com/rafaelvcaetano/melonDS-android/pull/1524))
 * Map phone screen sleep/wake to DS lid close/open while emulating ([#1589](https://github.com/rafaelvcaetano/melonDS-android/pull/1589))
 * Add two-button controller hotkey combinations ([#1606](https://github.com/rafaelvcaetano/melonDS-android/pull/1606))

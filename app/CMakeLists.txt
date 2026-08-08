@@ -1,6 +1,28 @@
-cmake_minimum_required(VERSION 3.4.1)
+cmake_minimum_required(VERSION 3.22.1)
 
 project(melonDS-android-frontend)
+
+if(ANDROID)
+    # CMake 3.22's Android IPO probe forces the gold linker, which was removed
+    # from recent NDKs. The Android toolchain supports ThinLTO through lld.
+    set(CMAKE_C_LINK_OPTIONS_IPO "-fuse-ld=lld")
+    set(CMAKE_CXX_LINK_OPTIONS_IPO "-fuse-ld=lld")
+    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE TRUE)
+    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO TRUE)
+
+    set(CMAKE_C_VISIBILITY_PRESET hidden)
+    set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+    set(CMAKE_VISIBILITY_INLINES_HIDDEN TRUE)
+else()
+    include(CheckIPOSupported)
+    check_ipo_supported(RESULT MELONDS_IPO_SUPPORTED OUTPUT MELONDS_IPO_ERROR)
+    if(MELONDS_IPO_SUPPORTED)
+        set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE TRUE)
+        set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO TRUE)
+    else()
+        message(WARNING "IPO/LTO is not supported: ${MELONDS_IPO_ERROR}")
+    endif()
+endif()
 
 add_compile_definitions(MELONDS_GL_HEADER=<GLES3/gl32.h>)
 add_compile_definitions(EGL_EGLEXT_PROTOTYPES)
@@ -70,4 +92,14 @@ target_include_directories(melonDS-android-frontend PUBLIC
         ${FAAD2}/include
         ${RCHEEVOS}/include
 )
+
+set(MELONDS_VERSION_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/${ANDROID-CPP}/melonds.map.txt)
+target_link_options(melonDS-android-frontend PRIVATE
+        -Wl,--version-script,${MELONDS_VERSION_SCRIPT}
+        -Wl,--no-undefined-version
+)
+set_target_properties(melonDS-android-frontend PROPERTIES
+        LINK_DEPENDS ${MELONDS_VERSION_SCRIPT}
+)
+
 target_link_libraries(melonDS-android-frontend android core net-utils oboe faad enet rcheevos EGL GLESv3)
