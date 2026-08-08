@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 <!--
-Only post the issue if you believe there is a problem with the emulator. If you have a question, feature request or other generic topic, you are encouraged to open a [Discussion](https://github.com/rafaelvcaetano/melonDS-android/discussions) instead. If you are not sure whether you are dealing with an issue or not, don't worry and post it wherever you feel is the most appropriate place.
+Only post the issue if you believe there is a problem with the emulator. If you have a question, feature request or other generic topic, you are encouraged to open a [Discussion](https://github.com/ulissesjdeo/melonDS-android/discussions) instead. If you are not sure whether you are dealing with an issue or not, don't worry and post it wherever you feel is the most appropriate place.
 
 Issues asking about online Wi-Fi will most likely be ignored and deleted since that feature is not yet implemented. You can, however, open a discussion if you believe you have valuable information to add regarding this topic.
 -->
