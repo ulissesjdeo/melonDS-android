@@ -35,27 +35,55 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Build melonDS Android
+      - name: Configure release signing
+        id: signing
         env:
           MELONDS_KEYSTORE: ${{ secrets.MELONDS_KEYSTORE }}
           MELONDS_KEYSTORE_PASSWORD: ${{ secrets.MELONDS_KEYSTORE_PASSWORD }}
-          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+        run: |
+          if [[ -z "$MELONDS_KEYSTORE" || -z "$MELONDS_KEYSTORE_PASSWORD" ]]; then
+            echo "signed=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Signing secrets are unavailable; building an unsigned nightly APK without publishing a release."
+            exit 0
+          fi
+
+          KEYSTORE_PATH="${{ runner.workspace }}/keystore.jks"
+          if ! printf '%s' "$MELONDS_KEYSTORE" | base64 --decode > "$KEYSTORE_PATH" || \
+             ! keytool -list \
+               -keystore "$KEYSTORE_PATH" \
+               -storepass "$MELONDS_KEYSTORE_PASSWORD" \
+               -alias melonds > /dev/null 2>&1; then
+            rm -f "$KEYSTORE_PATH"
+            echo "signed=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Signing secrets do not contain a usable melonds key; building an unsigned nightly APK without publishing a release."
+            exit 0
+          fi
+
+          {
+            echo "MELONDS_KEYSTORE=$KEYSTORE_PATH"
+            echo "MELONDS_KEYSTORE_PASSWORD=$MELONDS_KEYSTORE_PASSWORD"
+            echo "MELONDS_KEY_ALIAS=melonds"
+            echo "MELONDS_KEY_PASSWORD=$MELONDS_KEYSTORE_PASSWORD"
+          } >> local.properties
+          echo "signed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Build melonDS Android
         run: |
           COMMIT=$(git rev-parse --short HEAD)
           VERSION=$(grep '^melonDS.versionName=' gradle.properties | cut -d= -f2-)
-          git config user.name "${GITHUB_ACTOR}"
-          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          echo "$MELONDS_KEYSTORE" | base64 -d > ${{runner.workspace}}/keystore.jks
-          echo "MELONDS_KEYSTORE=${{runner.workspace}}/keystore.jks" >> local.properties
-          echo "MELONDS_KEYSTORE_PASSWORD=$MELONDS_KEYSTORE_PASSWORD" >> local.properties
-          echo "MELONDS_KEY_ALIAS=melonds" >> local.properties
-          echo "MELONDS_KEY_PASSWORD=$MELONDS_KEYSTORE_PASSWORD" >> local.properties
           chmod +x ./gradlew
           ./gradlew :app:assembleGitHubNightlyRelease "-PmelonDS.versionName=$VERSION ($COMMIT)" -PmelonDS.abis=armeabi-v7a,arm64-v8a,x86_64
+
+      - name: Update nightly tag
+        if: steps.signing.outputs.signed == 'true'
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git tag -m "Nightly Release" -f -a nightly-release
           git push -f origin refs/tags/nightly-release
 
       - name: Update GitHub Nightly Release
+        if: steps.signing.outputs.signed == 'true'
         id: update_release
         uses: ncipollo/release-action@v1
         with:
@@ -72,4 +100,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: melonDS-android
-          path: app/build/outputs/apk/gitHubNightly/release/app-gitHub-nightly-release.apk
+          path: app/build/outputs/apk/gitHubNightly/release/*.apk
